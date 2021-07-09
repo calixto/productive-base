@@ -1,0 +1,16 @@
+{
+    "name": "calixto/productive",
+    "description": "Microframework",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Calixto",
+            "email": "calixto.jorge@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": { "Productive\\": "" }
+    },
+    "require": {}
+}
