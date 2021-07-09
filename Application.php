@@ -1,5 +1,4 @@
 <?php
-include_once './debug.php';
 
 namespace Productive;
 
@@ -55,6 +54,12 @@ class Application {
         return self::$folderView;
     }
     
+    public static function loadDebug(){
+        include_once 'debug.php';
+        \errorsOn();
+        return (new Application());
+    }
+    
     public static function setMainTemplate($mainTemplate){
         self::$mainTemplate = $mainTemplate;
         return (new Application());
@@ -89,15 +94,15 @@ class Application {
 
     protected static function createController() {
         $class = self::getRouteToClassPath(self::$folderController);
-        if (testPath($class)){
             (new Http\Session())->start();
-            self::$controller = new $class();
+            try{
+                self::$controller = new $class();
+            } catch (\Exception $ex) {
+                throw new Exception\RequestException('Route error.');
+            }
             if (!self::$controller instanceof Tier\Controller) {
                 throw new Exception\RequestException('It is not a Controller.');
             }
-        }else{
-            throw new Exception\RequestException('Route error.');
-        }
     }
 
     protected static function executeMethod() {
